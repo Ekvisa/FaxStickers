@@ -1,0 +1,159 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Verdana", sans-serif;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em 5%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: linen;
+}
+
+h1 {
+  font-size: 1.25em;
+}
+
+.inputArea {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  margin: 2em 0;
+}
+
+#input {
+  transition: color 0.5s ease;
+  border: 3px solid;
+  border-radius: 1em;
+  padding: 1em;
+}
+#input.correct {
+  color: green;
+}
+#input.almost {
+  color: green;
+  border: 3px dashed;
+}
+#input.wrong {
+  color: red;
+}
+#input:focus {
+  outline: none; /* убираем браузерный стиль */
+  box-shadow: 0 0 4px;
+}
+
+.hint-button {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-weight: bold;
+  background: lightgray;
+  cursor: pointer;
+}
+.hint-button:hover {
+  background: white;
+}
+
+.sticker-block {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 2em;
+  margin: 3em 0;
+}
+
+.phrase {
+  position: relative;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 200px;
+  border: 3px solid black;
+  border-radius: 1em;
+}
+
+/*Bubble arrow:*/
+.phrase::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -27px;
+  border-width: 12px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+.phrase::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: -20px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent white transparent transparent;
+}
+
+.image {
+  width: 300px;
+}
+.image img {
+  width: 100%;
+}
+
+.progress {
+  margin: 2em 0;
+}
+
+#thumbnails {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+#thumbnails li {
+  display: flex;
+  width: 4em;
+  height: 4em;
+  border-radius: 1em;
+  align-items: center;
+  justify-content: center;
+}
+#thumbnails li img {
+  width: 100%;
+}
+.guessedItem {
+  background-color: white;
+}
+.unguessedItem {
+  background-color: lightpink;
+}
+.shiny {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .sticker-block {
+    flex-direction: column;
+  }
+}
+
+.hidden {
+  display: none;
+}

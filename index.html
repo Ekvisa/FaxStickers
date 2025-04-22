@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Угадай стикер</h1>
+      <p>Введи слово (прилагательное), которое описывает Факса.</p>
+      <div class="inputArea">
+        <input type="text" id="input" placeholder="Название стикера" />
+        <button class="hint-button hidden" title="Показать подсказку">?</button>
+        <p id="statusText"></p>
+      </div>
+      <div class="sticker-block">
+        <div class="phrase">
+          <p id="imgCaption"></p>
+        </div>
+        <div class="image">
+          <img src="images/questionmark.png" alt="sticker" />
+        </div>
+      </div>
+      <div class="progress">
+        <p id="progressDescription"></p>
+        <ul id="thumbnails"></ul>
+      </div>
+      <div class="congrats">
+        <p class="hidden" id="congratsLink">
+          Поздравляю! Все стикеры отгаданы 🎉
+          <a href="https://t.me/addstickers/Fax_the_cat" target="_blank"
+            >Перейти к стикерпаку</a
+          >
+        </p>
+        <button id="showAllHints">Показать все подсказки</button>
+        <button id="showAllAnswers">Показать все ответы</button>
+        <div id="allOutput" class="hints"></div>
+      </div>
+    </div>
+  </body>
+</html>
