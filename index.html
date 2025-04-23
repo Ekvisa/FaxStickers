@@ -10,7 +10,10 @@
   <body>
     <div class="container">
       <h1>Угадай стикер</h1>
-      <p>Введи слово (прилагательное), которое описывает Факса.</p>
+      <p>
+        Введи слово (прилагательное), которое описывает Факса.
+        <a href="#showAllHints" class="scrollHint">🡇 Подсказки ниже</a>
+      </p>
       <div class="inputArea">
         <input type="text" id="input" placeholder="Название стикера" />
         <button class="hint-button hidden" title="Показать подсказку">?</button>
@@ -35,9 +38,10 @@
             >Перейти к стикерпаку</a
           >
         </p>
-        <button id="showAllHints">Показать все подсказки</button>
-        <button id="showAllAnswers">Показать все ответы</button>
-        <div id="allOutput" class="hints"></div>
+        <button id="showAllHints">Показать новые подсказки</button>
+        <button id="showAllAnswers">Показать ответы</button>
+        <div id="answersOutput" class="answers"></div>
+        <div id="hintsOutput" class="hints"></div>
       </div>
     </div>
   </body>

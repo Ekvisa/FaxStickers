@@ -87,8 +87,9 @@ function showCompletionEffect() {
   thumbnails.forEach((item) => {
     item.classList.add("shiny");
   });
-  //Show the link
+  //Show the link and hide the Answers button:
   document.getElementById("congratsLink").classList.remove("hidden");
+  document.getElementById("showAllAnswers").classList.add("hidden");
 }
 
 const input = document.getElementById("input");
@@ -97,10 +98,11 @@ const stickerImg = document.querySelector(".image img");
 const statusDescription = document.getElementById("statusText");
 
 function reactToTyping() {
+  console.log("reactToTyping");
   const value = input.value.trim().toLowerCase();
   const mood = faxMoods[value];
   input.classList.remove("correct", "wrong", "almost"); // сбрасываем на всякий случай
-  statusDescription.textContent = "Факс не понимает, о чём ты.";
+  stickerImg.src = "images/questionmark.png";
   //If mood is in list:
   if (mood) {
     handleCorrectGuess(value, mood);
@@ -135,6 +137,8 @@ function handleCorrectGuess(value, mood) {
     smallImg.src = stickerImg.src;
     itemToFill.classList.replace("unguessedItem", "guessedItem");
   }
+
+  renderHints();
 }
 function handleAlmost() {
   input.classList.add("almost");
@@ -159,6 +163,7 @@ setDefaultCaption();
 
 input.addEventListener("input", reactToTyping);
 updateProgress();
+renderHints();
 
 //Draw a list of thumbnails:
 const thumbnails = []; //save elements for future actons (showCompletionEffect will use it)
@@ -180,26 +185,42 @@ function getRandomClue(clues) {
   return clues[index];
 }
 
-document.getElementById("showAllHints").addEventListener("click", () => {
-  const output = document.getElementById("allOutput");
-  output.innerHTML = "";
+//Показать подсказки:
+function renderHints() {
+  const hintsOutput = document.getElementById("hintsOutput");
+  hintsOutput.innerHTML = "";
 
   Object.entries(faxMoods).forEach(([key, data]) => {
-    const hintBlock = document.createElement("p");
     const clue = getRandomClue(data.clues);
-    hintBlock.textContent = `Один из стикеров значит это: ${clue}`;
-    output.appendChild(hintBlock);
-  });
-});
+    const p = document.createElement("p");
 
-document.getElementById("showAllAnswers").addEventListener("click", () => {
-  const output = document.getElementById("allOutput");
-  output.innerHTML = "";
+    if (guessedStickers.has(key)) {
+      p.innerHTML = `<strong>${key}:</strong> <i>${clue}</i>`;
+    } else {
+      p.innerHTML = `Один из стикеров значит это: <i>${clue}</i>`;
+    }
+
+    hintsOutput.appendChild(p);
+  });
+}
+
+//Показать ответы:
+function renderAnswers() {
+  const answersOutput = document.getElementById("answersOutput");
+  answersOutput.innerHTML = "";
 
   Object.entries(faxMoods).forEach(([key, data]) => {
-    const hintBlock = document.createElement("p");
     const clue = getRandomClue(data.clues);
-    hintBlock.innerHTML = `<strong>${key}</strong> (${clue})`;
-    output.appendChild(hintBlock);
+    const p = document.createElement("p");
+    p.innerHTML = `<strong>${key},</strong>`;
+    answersOutput.appendChild(p);
   });
-});
+}
+
+// Кнопка Показать подсказки:
+document.getElementById("showAllHints").addEventListener("click", renderHints);
+
+// Кнопка Показать ответы:
+document
+  .getElementById("showAllAnswers")
+  .addEventListener("click", renderAnswers);
