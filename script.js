@@ -111,19 +111,22 @@ const progressDesc = document.getElementById("progressDescription");
 
 function updateProgress() {
   progressDesc.textContent = `Разгадано ${guessedStickers.size} из ${totalStickers}`;
+
   if (guessedStickers.size === totalStickers) {
     showCompletionEffect();
   }
 }
 
 function showCompletionEffect() {
-  //Подсветим картинки:
+  //Make every picture to shine:
   thumbnails.forEach((item) => {
     item.classList.add("shiny");
   });
   //Show the link and hide the Answers button:
-  document.getElementById("congratsLink").classList.remove("hidden");
-  document.getElementById("showAllAnswers").classList.add("hidden");
+  document.getElementById("congrats").classList.remove("hidden");
+  if (showAllAnswers.textContent === "Показать ответы") {
+    document.getElementById("showAllAnswers").classList.add("hidden");
+  }
 }
 
 const input = document.getElementById("input");
@@ -132,10 +135,9 @@ const stickerImg = document.querySelector(".image img");
 const statusDescription = document.getElementById("statusText");
 
 function reactToTyping() {
-  console.log("reactToTyping");
   const value = input.value.trim().toLowerCase();
   const mood = faxMoods[value];
-  input.classList.remove("correct", "wrong", "almost"); // сбрасываем на всякий случай
+  input.classList.remove("correct", "wrong", "almost"); //just in case
   stickerImg.src = "images/questionmark.png";
   //If mood is in list:
   if (mood) {
@@ -149,7 +151,7 @@ function reactToTyping() {
     } else if (value.length > 0) {
       handleWrong();
     } else {
-      input.style.color = ""; // сброс цвета, если поле пустое
+      input.style.color = ""; //reset the color if input value is empty
     }
 
     setDefaultCaption();
@@ -165,11 +167,10 @@ function handleCorrectGuess(value, mood) {
     guessedStickers.add(value);
     updateProgress();
     //Add sticker to the progress list:
-    const itemToFill = document.querySelector("#thumbnails .unguessedItem");
-    console.log(itemToFill);
+    const itemToFill = document.querySelector("#thumbnails .unguessed-item");
     const smallImg = itemToFill.querySelector("img");
     smallImg.src = stickerImg.src;
-    itemToFill.classList.replace("unguessedItem", "guessedItem");
+    itemToFill.classList.replace("unguessed-item", "guessed-item");
   }
 
   renderHints();
@@ -202,9 +203,9 @@ renderHints();
 //Draw a list of thumbnails:
 const thumbnails = []; //save elements for future actons (showCompletionEffect will use it)
 const progressListUl = document.getElementById("thumbnails");
-for (i = 0; i < totalStickers; i++) {
+for (let i = 0; i < totalStickers; i++) {
   const thumbnailsItem = document.createElement("li");
-  thumbnailsItem.classList.add("unguessedItem");
+  thumbnailsItem.classList.add("unguessed-item");
   const img = document.createElement("img");
   img.src = "images/questionmark.png";
   thumbnailsItem.appendChild(img);
@@ -219,7 +220,6 @@ function getRandomClue(clues) {
   return clues[index];
 }
 
-//Показать подсказки:
 function renderHints() {
   const hintsOutput = document.getElementById("hintsOutput");
   hintsOutput.innerHTML = "";
@@ -242,7 +242,7 @@ function renderHints() {
   });
 }
 
-//Показать ответы:
+//Show answers:
 function renderAnswers() {
   const answersOutput = document.getElementById("answersOutput");
 
@@ -261,11 +261,10 @@ function renderAnswers() {
   }
 }
 
-// Кнопка Показать подсказки:
+//Hints button:
 document.getElementById("showAllHints").addEventListener("click", renderHints);
 
-// Кнопка Показать ответы:
-
+//Answers button:
 const answersButton = document.getElementById("showAllAnswers");
 answersButton.textContent = "Показать ответы";
 answersButton.addEventListener("click", renderAnswers);
