@@ -1,3 +1,15 @@
+:root {
+  --accent: 162;
+
+  --decoration-color: hsl(
+    var(--accent),
+    66%,
+    30%
+  ); /*links and buttons borders*/
+  --decoration-color-bright: hsl(var(--accent), 30%, 79%); /*buttons*/
+  --decoration-color-dark: hsl(var(--accent), 30%, 73%); /*hovered buttons*/
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -7,15 +19,15 @@ body {
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2em 5%;
+  padding: 0 7%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background-color: linen;
+  background-color: #f5efe2;
 }
 
 h1 {
-  font-size: 1.25em;
+  margin: 2em 0;
 }
 
 .inputArea {
@@ -46,16 +58,10 @@ h1 {
   box-shadow: 0 0 4px;
 }
 
-.hint-button {
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-weight: bold;
-  background: lightgray;
-  cursor: pointer;
-}
-.hint-button:hover {
-  background: white;
+.scrollHint {
+  color: var(--decoration-color);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--decoration-color);
 }
 
 .sticker-block {
@@ -78,22 +84,25 @@ h1 {
 }
 
 /*Bubble arrow:*/
-.phrase::before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  left: -27px;
-  border-width: 12px;
-  border-style: solid;
-  border-color: transparent black transparent transparent;
-}
+.phrase::before,
 .phrase::after {
   content: "";
   position: absolute;
-  top: 22px;
-  left: -20px;
-  border-width: 10px;
   border-style: solid;
+  display: block;
+}
+
+/* Стрелка влево (по умолчанию) */
+.phrase::before {
+  top: 20px;
+  left: -24px;
+  border-width: 12px;
+  border-color: transparent black transparent transparent;
+}
+.phrase::after {
+  top: 22px;
+  left: -19px;
+  border-width: 10px;
   border-color: transparent white transparent transparent;
 }
 
@@ -130,7 +139,7 @@ h1 {
   background-color: white;
 }
 .unguessedItem {
-  background-color: lightpink;
+  background-color: #edb2b3;
 }
 .shiny {
   animation: pulse 2s infinite;
@@ -152,8 +161,60 @@ h1 {
   .sticker-block {
     flex-direction: column;
   }
+
+  .phrase::before {
+    top: auto;
+    left: 50%;
+    bottom: -24px;
+    transform: translateX(-50%);
+    border-width: 12px;
+    border-color: black transparent transparent transparent;
+  }
+
+  .phrase::after {
+    top: auto;
+    left: 50%;
+    bottom: -19px;
+    transform: translateX(-50%);
+    border-width: 10px;
+    border-color: white transparent transparent transparent;
+  }
 }
 
 .hidden {
   display: none;
+}
+
+#congrats {
+  font-weight: bold;
+  animation: pulse 2s infinite;
+  color: #666;
+}
+
+#congrats a {
+  color: var(--decoration-color);
+}
+
+#congrats a:hover {
+  text-decoration-thickness: 3px;
+}
+
+.bottom button {
+  background-color: var(--decoration-color-bright);
+  border: 2px solid var(--decoration-color);
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em 1em 1em 0;
+  cursor: pointer;
+}
+.bottom button:hover {
+  background-color: var(--decoration-color-dark);
+}
+
+#answersOutput {
+  font-weight: bold;
+}
+
+hr {
+  border-radius: 1em;
 }

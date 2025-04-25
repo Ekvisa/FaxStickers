@@ -3,71 +3,105 @@ const faxMoods = {
     img: "images/cry.png",
     phrase: "Ну и зачем я вообще просыпался…",
     clues: [
-      "На сердце тучки и хочется помолчать",
-      "...и скучный, и никому руку не подающий",
+      "на сердце тучки и хочется помолчать",
+      "скучно и некому лапку подать",
+      "все про него забыли",
+      "дают полезную еду вместо вкусняшки",
+      "объелся вкусностей и заболел",
     ],
   },
   довольный: {
     img: "images/glad.png",
     phrase: "Мяу. Идеально.",
     clues: [
-      "Это настроение, когда хочется урчать",
-      "Когда только что съел любимую рыбку",
-      "Когда всё получилось, как хотелось",
+      "всё как надо и хочется урчать",
+      "только что съел любимую рыбку",
+      "всё получилось, как хотелось",
     ],
   },
   злой: {
     img: "images/angry.png",
     phrase: "Ещё шаг — и будешь исцарапан!",
     clues: [
-      "Когда всё раздражает и хочется шипеть",
-      "Настроение, при котором когти чешутся",
-      "Это чувство, когда тебя РАЗОЗЛИЛИ!",
+      "всё раздражает и хочется гневно мяукать",
+      "шипит и когти наружу",
+      "когда его РАЗОЗЛИЛИ!",
+      "хочет что-нибуть разодрать",
     ],
   },
   любящий: {
     img: "images/heart.png",
     phrase: "Ты ничего так. Для человека.",
-    clues: ["Таким полезно притвориться, когда голодный", "Когда рядом хорошо"],
+    clues: [
+      "хочет получить еду по-хорошему",
+      "вместе хорошо",
+      "ты - его человек",
+      "исполнен обожанием",
+      "трётся и мурлычет",
+    ],
   },
   важный: {
     img: "images/king.png",
     phrase: "Не стоит благодарности, подданный.",
-    clues: ["Власть, величие и хвост трубой"],
+    clues: [
+      "широко шагает и держит хвост трубой",
+      "он тут главный",
+      "медленно идёт, а все смотрят",
+      "не позволяет гладить, только смотреть",
+    ],
   },
   обиженный: {
     img: "images/offended.png",
     phrase: "Не смотри на меня. Всё уже кончено.",
     clues: [
-      "Я с тобой не играю",
-      "Это не злость, а... когда ушёл в угол и молчит",
-      "Настроение «сам догадайся»",
+      "говорит: «я с тобой не играю»",
+      "не злится, но ушёл в угол и молчит",
+      "у него настроение «сам догадайся»",
+      "показали, но не дали вкусняшку",
+      "гладишь, а он уходит",
     ],
   },
   суровый: {
     img: "images/severe.png",
     phrase: "Я наблюдаю. И осуждаю.",
     clues: [
-      "В этом взгляде — порядок, строгость и суд",
-      "Он не ругается, но лучше слушаться",
-      "Когда Факс следит за дисциплиной",
+      "в его взгляде — порядок, строгость и суд",
+      "он не ругается, но лучше слушаться",
+      "следит за дисциплиной",
+      "видно, что не стоит его гладить",
+      "не настроен шутить",
     ],
   },
   спящий: {
     img: "images/sleep.png",
     phrase: "Если ты это читаешь — ты мешаешь мне спать",
-    clues: ["Глаза закрылись, мир исчез", "Он ушёл в мурлыкающую дрему"],
+    clues: [
+      "глаза закрылись, мир исчез",
+      "ушёл в мурлыкающую дрему",
+      "нельзя его тревожить",
+      "не только ночь",
+      "отдыхает после сытного обеда",
+    ],
   },
 
   удивленный: {
     img: "images/surprized.png",
     phrase: "Я видел это. Но не верю.",
-    clues: ["Вот это да!"],
+    clues: [
+      "думает: «Вот это да!» или «Что это было?»",
+      "не получается поймать в лапку лазерную точку",
+      "кот-близнец за стеклом повторяет за ним",
+      "что-то идёт не по плану, но не плохо",
+    ],
   },
   зевающий: {
     img: "images/yawn.png",
     phrase: "Сейчас зевну — и ты зевнёшь.",
-    clues: ["Когда сон ещё не пришёл, но уже рядом"],
+    clues: [
+      "когда сон ещё не пришёл, но уже рядом",
+      "пора на боковую",
+      "потягивается и открывает рот",
+    ],
   } /**/,
 };
 
@@ -194,11 +228,15 @@ function renderHints() {
     const clue = getRandomClue(data.clues);
     const p = document.createElement("p");
 
+    let prefix;
+
     if (guessedStickers.has(key)) {
-      p.innerHTML = `<strong>${key}:</strong> <i>${clue}</i>`;
+      prefix = `<strong>${key}</strong>`;
     } else {
-      p.innerHTML = `Один из стикеров значит это: <i>${clue}</i>`;
+      prefix = "Факс такой, когда";
     }
+
+    p.innerHTML = `${prefix}: <i>${clue}</i><hr/>`;
 
     hintsOutput.appendChild(p);
   });
@@ -207,20 +245,27 @@ function renderHints() {
 //Показать ответы:
 function renderAnswers() {
   const answersOutput = document.getElementById("answersOutput");
+
   answersOutput.innerHTML = "";
 
-  Object.entries(faxMoods).forEach(([key, data]) => {
-    const clue = getRandomClue(data.clues);
-    const p = document.createElement("p");
-    p.innerHTML = `<strong>${key},</strong>`;
-    answersOutput.appendChild(p);
-  });
+  if (answersButton.textContent === "Показать ответы") {
+    Object.entries(faxMoods).forEach(([key, data]) => {
+      const clue = getRandomClue(data.clues);
+      const p = document.createElement("p");
+      p.textContent = `${key}`;
+      answersOutput.appendChild(p);
+    });
+    answersButton.textContent = "Спрятать ответы";
+  } else {
+    answersButton.textContent = "Показать ответы";
+  }
 }
 
 // Кнопка Показать подсказки:
 document.getElementById("showAllHints").addEventListener("click", renderHints);
 
 // Кнопка Показать ответы:
-document
-  .getElementById("showAllAnswers")
-  .addEventListener("click", renderAnswers);
+
+const answersButton = document.getElementById("showAllAnswers");
+answersButton.textContent = "Показать ответы";
+answersButton.addEventListener("click", renderAnswers);
