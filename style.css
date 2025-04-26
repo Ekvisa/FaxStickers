@@ -1,5 +1,6 @@
 :root {
-  --accent: 162;
+  --accent: 162; /*turquoise*/
+  --highlight: 359; /*pink*/
 
   --decoration-color: hsl(
     var(--accent),
@@ -7,7 +8,14 @@
     30%
   ); /*links and buttons borders*/
   --decoration-color-bright: hsl(var(--accent), 30%, 79%); /*buttons*/
-  --decoration-color-dark: hsl(var(--accent), 30%, 73%); /*hovered buttons*/
+  --decoration-color-dark: hsl(var(--accent), 36%, 67%); /*hovered buttons*/
+
+  --fill-color: hsl(
+    var(--highlight),
+    62%,
+    81%
+  ); /*unquessed items and congrats bg*/
+  --congrats-color: hsl(var(--highlight), 40%, 53%); /*congrats text color*/
 }
 
 body {
@@ -19,7 +27,7 @@ body {
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 0 7%;
+  padding: 0 7% 4em;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -140,7 +148,7 @@ h1 {
   background-color: white;
 }
 .unguessed-item {
-  background-color: #edb2b3;
+  background-color: var(--fill-color);
 }
 .shiny {
   animation: pulse 2s infinite;
@@ -151,7 +159,7 @@ h1 {
     filter: brightness(1);
   }
   50% {
-    filter: brightness(1.2);
+    filter: brightness(1.4);
   }
   100% {
     filter: brightness(1);
@@ -188,8 +196,14 @@ h1 {
 
 #congrats {
   font-weight: bold;
-  animation: pulse 2s infinite;
-  color: #666;
+  animation: pulse 4s infinite;
+  color: var(--congrats-color);
+  background-color: var(--fill-color);
+  border-radius: 1em;
+  text-align: center;
+  margin: 0 0 1em;
+  padding: 1em;
+  font-size: 1.5em;
 }
 
 #congrats a {
@@ -214,6 +228,16 @@ h1 {
 
 #answersOutput {
   font-weight: bold;
+}
+
+#hintsOutput p {
+  margin: 0;
+  padding: 1em;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#hintsOutput p:nth-child(2n) {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 hr {
