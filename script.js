@@ -1,4 +1,4 @@
-const faxMoods = {
+const rawFaxMoods = {
   грустный: {
     img: "images/cry.png",
     phrase: "Ну и зачем я вообще просыпался…",
@@ -85,7 +85,7 @@ const faxMoods = {
     ],
   },
 
-  удивленный: {
+  удивлённый: {
     img: "images/surprized.png",
     phrase: "Я видел это. Но не верю.",
     clues: [
@@ -105,6 +105,31 @@ const faxMoods = {
     ],
   } /**/,
 };
+
+//Remove capitals and Ё letters :
+function normalize(text) {
+  return text.toLowerCase().replaceAll("ё", "е");
+}
+
+//Creating normalized verson of rawFaxMoods:
+const faxMoods = {};
+for (const [key, data] of Object.entries(rawFaxMoods)) {
+  const normalizedKey = normalize(key);
+  faxMoods[normalizedKey] = {
+    ...data, // копируем img, phrase, clues
+    original: key, // добавляем оригинал
+  };
+}
+console.log(faxMoods);
+
+/*const faxMoods = {};
+for (const [key, mood] of Object.entries(rawFaxMoods)) {
+  const normalizedKey = key
+    .replaceAll("ё", "е")
+    .replaceAll("Ё", "Е")
+    .toLowerCase();
+  faxMoods[normalizedKey] = mood;
+}*/
 
 let guessedStickers = new Set();
 const totalStickers = Object.keys(faxMoods).length;
@@ -136,7 +161,11 @@ const stickerImg = document.querySelector(".image img");
 const statusDescription = document.getElementById("statusText");
 
 function reactToTyping() {
-  const value = input.value.trim().toLowerCase();
+  const value = input.value
+    .trim()
+    .toLowerCase()
+    .replaceAll("ё", "е")
+    .replaceAll("Ё", "Е");
   const mood = faxMoods[value];
   input.classList.remove("correct", "wrong", "almost"); //just in case
   stickerImg.src = "images/questionmark.png";
@@ -232,7 +261,7 @@ function renderHints() {
     let prefix;
 
     if (guessedStickers.has(key)) {
-      prefix = `<strong>${key}</strong>`;
+      prefix = `<strong>${data.original}</strong>`;
     } else {
       prefix = "Факс такой, когда";
     }
@@ -253,7 +282,7 @@ function renderAnswers() {
     Object.entries(faxMoods).forEach(([key, data]) => {
       const clue = getRandomClue(data.clues);
       const p = document.createElement("p");
-      p.textContent = `${key}`;
+      p.textContent = `${data.original}`;
       answersOutput.appendChild(p);
     });
     answersButton.textContent = "Спрятать ответы";

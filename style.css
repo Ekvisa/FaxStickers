@@ -208,6 +208,7 @@ h1 {
 
 #congrats a {
   color: var(--decoration-color);
+  white-space: nowrap;
 }
 
 #congrats a:hover {
